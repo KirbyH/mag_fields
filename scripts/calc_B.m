@@ -7,7 +7,6 @@ global I
 % This function takes a specified coil configuration and position in
 % space and computes the B field at this point
 %
-%
 % INPUTS:
 %   dL: Nx3: Length vector of each panel 
 %       dL(N,1) = x direction
@@ -23,7 +22,6 @@ global I
 %       coord(1,1) = x position
 %       coord(1,2) = y position
 %       coord(1,3) = z position
-%
 %
 % OUPTUTS:
 %   B_field: 1x4: Magnetic Field information
