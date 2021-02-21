@@ -40,9 +40,9 @@ end
 
 minB = -6; maxB = 1;  % hardcoded colorbar values
 
-sl = slice(X, Y, Z, B, xslice, yslice, zslice); 
-set(sl,'EdgeColor','none');  % hide slice gridlines
-h.FaceColor = 'interp'; 
+s = slice(X, Y, Z, B, xslice, yslice, zslice); 
+set(s,'EdgeColor','none');  % hide slice gridlines
+set(s, 'FaceColor', 'interp'); 
 % set(sl, 'FaceAlpha', 0.4);  % transparency of slices
 axis equal; 
 colormap(redblue); 

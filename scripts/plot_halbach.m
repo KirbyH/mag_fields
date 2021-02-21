@@ -42,9 +42,8 @@ q = quiver3(roots(:,1), roots(:,2), roots(:,3), ...
 q.LineWidth = 2; 
 q.Color = 'k'; 
 q.AutoScale = 'off';
-% q.AutoScaleFactor = 5; 
 pause(0.1); % this appears to help
-q.NodeChildren(2).Visible = 'off';
+q.NodeChildren(2).Visible = 'off';  % hide quiver stems
 view(3); axis equal; grid on; 
 
 % xlabel('x')

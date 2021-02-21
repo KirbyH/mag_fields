@@ -1,4 +1,4 @@
-function [x_dot] = eom_SPACE(t, x)
+function [x_dot] = eom_rad(t, x)
 % Equation of motion for ode45 describing the kinematics of a charged
 % particle in a magnetic field. 
 % 
@@ -15,7 +15,12 @@ function [x_dot] = eom_SPACE(t, x)
 q = 1.602e-19;  % charge of a proton
 m = 1.67e-27;  % mass of a proton
 
-B_field = calc_B(x(1:3));
+% input global values from global function
+dL = GL().dL; 
+coil_mp = GL().coil_mp; 
+I = GL().I; 
+
+B_field = calc_B(x(1:3), coil_mp, dL, I); 
 Vel = x(4:6);
 a = q/m*cross(Vel, B_field);
 x_dot = [Vel; a];
