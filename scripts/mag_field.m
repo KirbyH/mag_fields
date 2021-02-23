@@ -34,9 +34,9 @@ set(0, 'defaultAxesTickLabelInterpreter', 'latex');
 filename = 'nine_panels.txt';
 n_coils = 8;
 radius = 5;
-Xgrid = 12;
-Ygrid = 12;
-Zgrid = 12;
+Xgrid = 30;
+Ygrid = 30;
+Zgrid = 30;
 I = 1e6;
 pts_grid = 71;
 u_0 = 4*pi*1e-7; % magnetic permeability
@@ -87,13 +87,14 @@ end
 
 
 %% Plot 3d B Field
-% plot_3DField(B_field, points, 5); 
+plot_3DField(B_field, points, 5); 
 
 %% Plot slices
 % plot_slices(B_field, points); 
 
 %% Plot xz-plane and xy-plane streamslice
 plot_streamslice(B_field); 
+plot_halbach(points); 
 
 %% Calculate and plot coil forces
 coil_forces(coil_mp, dL, I, points); 

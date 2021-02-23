@@ -17,7 +17,7 @@ B = reshape(log10(B_field(:,7)), [Ny, Nx, Nz]);  % log10 of magnetic field
 
 lblue = [0.7 1 1];  % light blue
 
-colorLim = [-4 0]; 
+colorLim = [-4 1]; 
 
 % plot slice in y=1 plane
 f(1) = figure(); 
