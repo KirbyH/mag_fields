@@ -97,7 +97,7 @@ plot_streamslice(B_field);
 plot_halbach(points); 
 
 %% Calculate and plot coil forces
-% forces = coil_forces(coil_mp, dL, I, points); 
+forces = coil_forces(coil_mp, dL, I, points); 
 
 %% end timer
 toc
