@@ -1,4 +1,4 @@
-function forces = coil_forces(coil_mp, dL, I, points)
+function panel_forces = calc_forces(coil_mp, dL, I, points)
 % Calculates the forces from a given geometry on each panel of the array
 % and stores the output in a matrix forces [x y z Fx Fy Fz]
 % 
@@ -18,9 +18,9 @@ function forces = coil_forces(coil_mp, dL, I, points)
 % Kirby Heck
 % 02/20/2021
 
-forces = zeros(size(dL)); 
+panel_forces = zeros(size(dL)); 
 B = zeros(size(dL));  % this is merely for plotting at the end
-nPoints = length(forces(:,1)); 
+nPoints = length(panel_forces(:,1)); 
 
 % loop thru each point, omitting the current node
 for ii = 1:nPoints
@@ -31,15 +31,15 @@ for ii = 1:nPoints
     dL_subset = dL(subset,:); 
     
     B(ii,:) = calc_B(coil_mp(ii,:), mp_subset, dL_subset, I); 
-    forces(ii,:) = cross(dL(ii,:), B(ii,:));  % lorentz force F = I LxB
+    panel_forces(ii,:) = cross(dL(ii,:), B(ii,:));  % lorentz force F = I LxB
 end
-forces = forces*I; 
+panel_forces = panel_forces*I; 
 
 if exist('points', 'var')
     plot_halbach(points); 
     hold on; 
     q3 = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
-        forces(:,1), forces(:,2), forces(:,3), 'Color', 'r'); 
+        panel_forces(:,1), panel_forces(:,2), panel_forces(:,3), 'Color', 'r'); 
     q4 = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         B(:,1), B(:,2), B(:,3), 'Color', 'b');
 end

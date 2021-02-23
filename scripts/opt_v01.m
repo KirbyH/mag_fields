@@ -10,7 +10,7 @@ close all
 density = 2^6;
 
 %% Investigate Coil Geometry 
-%{
+%%{
 % Pre-allocates memmory :)
 Objective = zeros(density,density);
 % Limits for the horizontal and vertical radius
@@ -58,7 +58,7 @@ colorbar
 %}
 
 %% Investigate Horizontal Coil Radius and Halbach Geometry
-%{
+%%{
 clearvars -except density
 % Pre-allocates memmory :)
 Objective = zeros(density,density);
