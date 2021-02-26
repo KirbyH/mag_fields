@@ -6,7 +6,7 @@ clear all
 close all
 
 radius = 10000;
-n = 10;
+n = 15;
 [X,Y,Z] = sphere(n);
 X = radius*X;
 Y = radius*Y;

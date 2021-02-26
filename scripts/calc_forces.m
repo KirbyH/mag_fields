@@ -5,7 +5,7 @@ function panel_forces = calc_forces(coil_mp, dL, I, points)
 % INPUTS : 
 %     coil_mp : midpoints of each panel [nPoints x 3] with each row [x,y,z]
 %     dL : vector length and direction of each panel corresponding with
-%       rows in coil_mp%     
+%       rows in coil_mp 
 %     I : current thru each coil [A]
 %     points (optional) : points for the halbach array. If included, this
 %       will plot the halbach array and corresponding forces. 

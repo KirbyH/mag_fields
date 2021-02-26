@@ -12,6 +12,12 @@ function [geom] = coil_racetrack(r, w, n_p)
 % Kirby Heck
 % 02/25/2021
 
+% the function below breaks if r=w (circle). Workaround: call coil_geom.m
+if r==w
+    geom = coil_geom(r, w, n_p); 
+    return; 
+end
+
 % This is going to assemble the racetrack in four pieces with
 % ~approximately~ n_p points by leveraging symmetry. 
 
@@ -24,6 +30,6 @@ geom(N+1:2*N-1, :) = [w*cos(theta(2:end)), w*sin(theta(2:end)) + r-w];
 geom = [geom; flipud(geom(1:end-1,:)).*[-1 1]];  % flip over y-axis
 geom = [geom; flipud(geom(1:end-1,:)).*[1 -1]];  % flip over x-axis
 
-plot(geom(:,1), geom(:,2)); axis equal; 
+% plot(geom(:,1), geom(:,2)); axis equal; 
 end
 
