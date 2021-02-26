@@ -6,7 +6,7 @@ clear all
 close all
 
 radius = 10000;
-n = 20;
+n = 10;
 [X,Y,Z] = sphere(n);
 X = radius*X;
 Y = radius*Y;
@@ -25,7 +25,7 @@ end
 m = 1.67262e-27;
 e =1.6022e-12;
 v = sqrt(2*e/m);
-v = 1.01e6;
+v = 1.0e6;
 info(:,[4:6]) = info(:,[4:6])*v;
 
 
@@ -132,8 +132,28 @@ for ii = 1:length(record)
     plot3(x, y, z)
     hold on
 end
-radius = 5;
+radius = 50;
 plot_halbach(points)
 xlim([-radius radius])
 ylim([-radius radius])
 zlim([-radius radius])
+
+for ii = 1:length(record)
+    clear holder
+    for jj = 1:length(record{ii}(:,1))
+        holder(jj) = norm(record{ii}(jj,:));
+    end
+    ind = find(holder==min(holder));
+    if ind ~= length(record{ii}(:,1))
+        if holder(ind+1)>holder(ind-1)
+            decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind+1,:), 7);
+        else
+            decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind-11,:), 7);
+        end
+    else
+        decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind-11,:), 7);
+    end
+end
+
+clearvars -except decision
+sum(decision)
