@@ -4,7 +4,7 @@ function [geom] = coil_racetrack(r, w, n_p)
 % INPUTS : 
 %     r :  semimajor axis (half of total height)
 %     w : semiminor axis (half of total width)
-%     n_p : number of points
+%     n_p : target number of points
 %     
 % OUTPUTS : 
 %     geom : [n_p x 2] matrix of (x,y) coordinate pairs
@@ -15,13 +15,15 @@ function [geom] = coil_racetrack(r, w, n_p)
 % This is going to assemble the racetrack in four pieces with
 % ~approximately~ n_p points by leveraging symmetry. 
 
-theta_c = atan((r-w)/w); 
-N = ceil(n_p/4); 
-n_p = N*4-3;  % actual number of points
-geom = zeros(n_p, 2);  % preallocate memory
+N = ceil(n_p/8);  % one fourth of points
+% initial line, N points
+geom(1:N, :) = [w*ones(N,1), linspace(0, r-w, N)']; 
+theta = linspace(0, pi/2, N)'; 
+geom(N+1:2*N-1, :) = [w*cos(theta(2:end)), w*sin(theta(2:end)) + r-w]; 
 
-theta = linspace(0, pi/2, N); 
-straight_ind = (theta>
+geom = [geom; flipud(geom(1:end-1,:)).*[-1 1]];  % flip over y-axis
+geom = [geom; flipud(geom(1:end-1,:)).*[1 -1]];  % flip over x-axis
 
+plot(geom(:,1), geom(:,2)); axis equal; 
 end
 

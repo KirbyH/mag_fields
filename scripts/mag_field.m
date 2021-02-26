@@ -42,8 +42,10 @@ pts_grid = 32;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
 % imports
-geom = importdata(filename);
-geom = geom.data;
+% geom = importdata(filename);
+% geom = geom.data;
+
+geom  = coil_racetrack(1, 1, 21); 
 
 % ============ intro message ============
 disp(['Begin timer: running mag_field.m with ' num2str(pts_grid^3) ' points.']); 
