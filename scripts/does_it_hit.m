@@ -17,6 +17,11 @@ b = 2*((p2(1)-p1(1))*p1(1) + (p2(2)-p1(2))*p1(2) + (p2(3)-p1(3))*(p1(3)));
 c = p1(1)^2 + p1(2)^2 + p1(3)^2 - r^2;
 
 solution = b*b - 4*a*c;
+sol1 = (-b+sqrt(solution))/2/a;
+sol2 = (-b-sqrt(solution))/2/a;
+
+solution = max([sol1,sol2]);
+
 if solution<0
     hit = 0;
 else
