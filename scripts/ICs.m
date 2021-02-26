@@ -25,7 +25,7 @@ end
 m = 1.67262e-27;
 e =1.6022e-12;
 v = sqrt(2*e/m);
-v = 10000000;
+v = 1.01e6;
 info(:,[4:6]) = info(:,[4:6])*v;
 
 
@@ -35,7 +35,7 @@ radius = 5;
 Xgrid = 20;
 Ygrid = 20;
 Zgrid = 20;
-I = 1e8;
+I = 1e6;
 pts_grid = 51;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
@@ -117,7 +117,7 @@ GL('dL', dL);
 
 
 for i = 1:length(info(:,1))
-    t_span = [0 v/radius/2];
+    t_span = [0 .01];
     IC = info(i,:);
     [time, x_dot] = ode45(@eom_rad, t_span, IC);
     record{i} = x_dot(:,[1:3]);
@@ -132,7 +132,7 @@ for ii = 1:length(record)
     plot3(x, y, z)
     hold on
 end
-radius = 50;
+radius = 5;
 plot_halbach(points)
 xlim([-radius radius])
 ylim([-radius radius])
