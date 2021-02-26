@@ -26,7 +26,7 @@
 %     dL : vector for each "panel" on ALL the coils [M*n_coils x 3]
 %     B_field : scaled magnetic field strength at a given point
 
-clear; %close all
+clear; %close all; 
 set(0, 'defaultLegendInterpreter', 'latex'); 
 set(0, 'defaultTextInterpreter', 'latex'); 
 set(0, 'defaultAxesTickLabelInterpreter', 'latex'); 
@@ -38,7 +38,7 @@ Xgrid = 15;
 Ygrid = 15;
 Zgrid = 15;
 I = 1e6;
-pts_grid = 51;
+pts_grid = 32;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
 % imports
@@ -97,7 +97,8 @@ plot_streamslice(B_field);
 plot_halbach(points); 
 
 %% Calculate and plot coil forces
-forces = calc_forces(coil_mp, dL, I, points); 
+panel_forces = calc_forces(coil_mp, dL, I); 
+[coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
 
 %% end timer
 toc

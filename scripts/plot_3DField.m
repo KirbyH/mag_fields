@@ -9,7 +9,10 @@ end
 
 % plot on every SAMPLING points in x,y,z
 if ~exist('SAMPLING', 'var')
-    SAMPLING = 1; 
+    % quiver works best if it only has to handle ~1000 vectors. Make a 
+    % guess to the sampling rate: 
+    nSide = length(B_field)^(1/3); 
+    SAMPLING = floor(nSide/10); 
 end
 
 % to sample, reshape, take sampling, then reshape back to a list
