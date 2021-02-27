@@ -22,7 +22,7 @@ function [points, coil_mp, dL] = create_halbach(geom, n_coils, radius)
 % Kirby Heck 
 % 02/18/2021
 
-coil_points = length(geom(:,1)); 
+n_points = length(geom(:,1)); 
 points = zeros(length(geom), 3, n_coils); 
 
 % create centers to the coils
@@ -35,14 +35,14 @@ for ii = 1:n_coils
     A = [cos(theta(ii)+beta), -sin(theta(ii)+beta), 0; 
         sin(theta(ii)+beta), cos(theta(ii)+beta), 0; 
         0, 0, 1];  % rotation matrix
-    coil = [geom(:,1), zeros(coil_points, 1), geom(:,2)];  % first plot coil in xz-plane
+    coil = [geom(:,1), zeros(n_points, 1), geom(:,2)];  % first plot coil in xz-plane
     points(:,:,ii) = centers(ii,:) + (A*coil')'; 
 end
 
 % plot_halbach(points, figure); 
 
 % calculate midpoints and length vectors
-M = coil_points-1; 
+M = n_points-1; 
 dL = zeros(n_coils * M, 3); 
 coil_mp = zeros(size(dL)); 
 

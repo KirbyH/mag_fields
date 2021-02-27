@@ -1,9 +1,9 @@
-function [geom] = coil_geom(hor_r, vert_r, n_p)
+function [geom] = coil_geom(vert_r, hor_r, n_p)
 % Creates geometry for a coil 
 % 
 % INPUTS : 
-%     hor_r : horizontal radius of coil [m]
 %     vert_r : vertical radius of coil [m]
+%     hor_r : horizontal radius of coil [m]
 %     n_p : number of points to include in coil geometry
 % 
 % OUTPUTS : 
