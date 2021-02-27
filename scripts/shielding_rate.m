@@ -28,7 +28,7 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % Matt Tuman & Kirby Heck
 % 2/25/21
 
-geom = coil_geom(1, 1, 88); 
+geom = coil_racetrack(1, 0.5, 33); 
 [points, coil_mp, dL] = create_halbach(geom, 8, 5); 
 plots = 1; 
 if ~exist('I', 'var')
@@ -36,7 +36,7 @@ if ~exist('I', 'var')
 end
 
 %% Create Sphere For Initial Positions
-r_sphere = 10000;  % begin particles at 10 km away
+r_sphere = 100;  % begin particles at 10 km away
 n = 15;
 [X,Y,Z] = sphere(n);
 
@@ -52,7 +52,7 @@ tic;
 
 %% Calculate velocities
 v_hat = -r_0./vecnorm(r_0,2,2);  % initial velocity direction radial inward
-KE = 0.1e6;  % in eV
+KE = 1e6;  % in eV
 
 m = 1.67262e-27;  % mass of proton [kg]
 e = 1.6022e-19;  % charge on a proton, conversion from eV to J 
@@ -81,7 +81,7 @@ end
 
 % if plotting, run extra step in if statement
 for ii = 1:nRuns
-    t_span = [0 r_sphere/v];
+    t_span = [0 2*r_sphere/v];
     IC = info(ii,:);
     [~, traj] = ode45(@eom_rad, t_span, IC);
     trail = traj(:,1:3);  % xyz trail of points
@@ -120,15 +120,20 @@ if plotting
         plot3(x, y, z, LineSp{res(ii)+1}, 'LineWidth', LineTh(res(ii)+1)); 
     end
     
-    r_plot = 100;
+    r_plot = 25;
     plot_halbach(points)
     xlim([-r_plot r_plot])
     ylim([-r_plot r_plot])
     zlim([-r_plot r_plot])
+    set(gca, 'Color', [0.5, 0.5, 0.5]); 
+    view(3)
     
     xlabel('$x$ [m]'); 
     ylabel('$y$ [m]');
     zlabel('$z$ [m]');
+    
+    Title = sprintf('Trajectories for $N$=%i particles, %.3f effective', nRuns, defl_rate);  
+    title(Title); 
 end
 
 toc; 

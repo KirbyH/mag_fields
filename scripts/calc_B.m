@@ -27,10 +27,13 @@ function [B_field] = calc_B(coord, coil_mp, dL, I)
 %       B_field(1,3) = z magnetic field component
 
 u_0 = 4*pi*1e-7; % magnetic permeability
-dL = GL().dL; 
-coil_mp = GL().coil_mp; 
-I = GL().I; 
-coord = coord';
+
+if nargin == 1
+    dL = GL().dL; 
+    coil_mp = GL().coil_mp; 
+    I = GL().I; 
+end
+% coord = coord';
 r_mat = coord - coil_mp;  % r-vector, [#midpoints x 3]
 r = vecnorm(r_mat,2,2);  % length of each vector [#mp x 1]
 r_hat = r_mat./r;

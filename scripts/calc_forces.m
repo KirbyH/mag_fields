@@ -38,10 +38,10 @@ panel_forces = panel_forces*I;
 if exist('points', 'var')
     plot_halbach(points); 
     hold on; 
-    q3 = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
+    quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         panel_forces(:,1), panel_forces(:,2), panel_forces(:,3), 'Color', 'r'); 
-    q4 = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
+    quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         B(:,1), B(:,2), B(:,3), 'Color', 'b');
-end
+end         
 end
 

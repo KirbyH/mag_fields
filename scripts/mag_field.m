@@ -26,7 +26,7 @@
 %     dL : vector for each "panel" on ALL the coils [M*n_coils x 3]
 %     B_field : scaled magnetic field strength at a given point
 
-clear; close all; 
+clear; %close all; 
 set(0, 'defaultLegendInterpreter', 'latex'); 
 set(0, 'defaultTextInterpreter', 'latex'); 
 set(0, 'defaultAxesTickLabelInterpreter', 'latex'); 
@@ -45,7 +45,7 @@ u_0 = 4*pi*1e-7; % magnetic permeability
 % geom = importdata(filename);
 % geom = geom.data;
 
-geom  = coil_geom(1, 1, 9); 
+geom  = coil_geom(1, 1, 109); 
 
 % ============ intro message ============
 disp(['Begin timer: running mag_field.m with ' num2str(pts_grid^3) ' points.']); 

@@ -148,7 +148,7 @@ for ii = 1:length(record)
         if holder(ind+1)>holder(ind-1)
             decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind+1,:), 7);
         else
-            decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind-11,:), 7);
+            decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind-1,:), 7);
         end
     else
         decision(ii) = does_it_hit(record{ii}(ind,:), record{ii}(ind-11,:), 7);
