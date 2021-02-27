@@ -19,7 +19,17 @@ function [coil_forces, coil_mp] = analyze_forces(panel_forces, points, plots)
 
 dims = size(points); 
 M = dims(1)-1;  % number of unique points per coil
-n_coils = dims(3);  % number of coils
+% n_coils = dims(3);  % number of coils
+
+if length(dims) == 2 % if plotting one coil only, we need a workaround
+    points_3d = zeros([dims 2]); 
+    points_3d(:,:,1) = points; 
+    points = points_3d;  % little switcheroo if plotting 1 coil
+    dims = size(points); 
+    n_coils = 1; 
+else
+    n_coils = dims(3); 
+end
 
 % preallocate
 coil_mp = zeros(n_coils, 3); 

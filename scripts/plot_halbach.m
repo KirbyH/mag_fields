@@ -17,13 +17,21 @@ if exist('f1', 'var')
 end
 
 dims = size(points); 
+M = dims(1)-1;  % number of panels per coil
+
+if length(dims) == 2 % if plotting one coil only, we need a workaround
+    points_3d = zeros([dims 2]); 
+    points_3d(:,:,1) = points; 
+    points = points_3d;  % little switcheroo if plotting 1 coil
+    dims = size(points); 
+    nCoils = 1; 
+else
+    nCoils = dims(3); 
+end
 pointsX = reshape(points(:,1,:), dims([1 3]));  % select only x-points
 pointsY = reshape(points(:,2,:), dims([1 3]));  % likewise for y and z
 pointsZ = reshape(points(:,3,:), dims([1 3]));  % [#points x #coils]
 
-dims = size(points); 
-M = dims(1)-1;  % number of panels per coil
-nCoils = dims(3); 
 arrows = zeros(M*nCoils, 3); 
 roots = zeros(M*nCoils, 3); 
 
