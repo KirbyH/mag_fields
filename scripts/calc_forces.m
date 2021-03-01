@@ -39,7 +39,8 @@ if exist('points', 'var')
     plot_halbach(points); 
     hold on; 
     
-    plotF = panel_forces/max(panel_forces, [], 'all');  % normalize
+    plotF = panel_forces./vecnorm(dL,2,2); 
+    plotF = plotF/max(plotF, [], 'all');  % normalize
     plotB = B/max(B, [], 'all');  % normalize
     qF = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         plotF(:,1), plotF(:,2), plotF(:,3), 'Color', 'r'); 
