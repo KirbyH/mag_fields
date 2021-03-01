@@ -28,15 +28,15 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % Matt Tuman & Kirby Heck
 % 2/25/21
 
-geom = coil_racetrack(1, 0.5, 33); 
-[points, coil_mp, dL] = create_halbach(geom, 8, 5); 
+% geom = coil_racetrack(1, 1, 33); 
+% [points, coil_mp, dL] = create_halbach(geom, 8, 5); 
 plots = 1; 
 if ~exist('I', 'var')
     I = 1e7; 
 end
 
 %% Create Sphere For Initial Positions
-r_sphere = 100;  % begin particles at 10 km away
+r_sphere = 100;  % begin particles at 100 m away
 n = 15;
 [X,Y,Z] = sphere(n);
 

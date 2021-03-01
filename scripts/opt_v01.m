@@ -31,8 +31,9 @@ for ii = 1:density
         geom = coil_geom(r(ii),r(jj),n_points);
         % Calculate the Halbach Array Geometry
         [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r); 
+        
         % calculate the coil forces on each point in the Halbach Array
-        forces = coil_forces(coil_mp, dL, I); 
+        forces = calc_forces(coil_mp, dL, I, points); 
         % Loop through each coil
         for i = 1:n_coils
             % Index to grab the correct coil points
