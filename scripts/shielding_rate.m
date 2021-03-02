@@ -28,8 +28,8 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % Matt Tuman & Kirby Heck
 % 2/25/21
 
-geom = coil_racetrack(1, 1, 33); 
-[points, coil_mp, dL] = create_halbach(geom, 8, 6); 
+geom = coil_racetrack(1, 0.1, 33); 
+[points, coil_mp, dL] = create_halbach(geom, 8, 4); 
 plots = 1; 
 if ~exist('I', 'var')
     I = 1e8; 
@@ -71,7 +71,7 @@ GL('dL', dL);
 
 %% Begin ODE45 integrations
 res = zeros(nRuns, 1); 
-thresh = 7;  % [m]
+thresh = 3;  % [m]
 plotting = false; 
 
 if exist('plots', 'var')

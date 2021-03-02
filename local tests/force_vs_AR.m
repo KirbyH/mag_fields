@@ -3,17 +3,18 @@
 
 Colors = parula(5); 
 
-nTests = 40; 
-AR = linspace(1, 10, nTests); 
+nTests = 100; 
+AR = linspace(1, 8, nTests); 
 coilMax = zeros(nTests, 2); 
 panMax = zeros(nTests, 2); 
 panAvg = zeros(nTests, 2); 
+Hradius = 5;  % halbach radius [m]
 I = 1;  % assume "non-dimensionalizing"
 
 for ii = 1:nTests
     % racetrack geometry
     geom = coil_racetrack(1, 1/AR(ii), 71); 
-    [points, coil_mp, dL] = create_halbach(geom, 8, 5); 
+    [points, coil_mp, dL] = create_halbach(geom, 8, Hradius); 
     panel_forces = calc_forces(coil_mp, dL, I); 
     coil_forces = analyze_forces(panel_forces, points); 
     norm_panels = panel_forces ./ vecnorm(dL,2,2); 
@@ -23,7 +24,7 @@ for ii = 1:nTests
     
     %ellipse geometry
     geom = coil_geom(1, 1/AR(ii), 71); 
-    [points, coil_mp, dL] = create_halbach(geom, 8, 5); 
+    [points, coil_mp, dL] = create_halbach(geom, 8, Hradius); 
     panel_forces = calc_forces(coil_mp, dL, I); 
     coil_forces = analyze_forces(panel_forces, points); 
     norm_panels = panel_forces ./ vecnorm(dL,2,2); 
@@ -46,10 +47,4 @@ ylabel('Maximum force in any panel, $F/I^2 L$ [N A$^{-2}$ m$^{-1}$]');
 
 xlabel('Aspect ratio $h/w$ [-]'); 
 legend({'Racetrack', 'Ellipse'}, 'location', 'north'); 
-
-%% try to plot combination of both metrics
-products = panMax .* coilMax; 
-
-figure; hold on; grid on; 
-plot(AR, products(:,1), '-k'); 
-plot(AR, products(:,2), '--k'); 
+title(sprintf('Forces for array radius = %i m', Hradius)); 
