@@ -32,11 +32,11 @@ geom = coil_racetrack(1, 0.1, 33);
 [points, coil_mp, dL] = create_halbach(geom, 8, 4); 
 plots = 1; 
 if ~exist('I', 'var')
-    I = 1e8; 
+    I = 1e7; 
 end
 
 %% Create Sphere For Initial Positions
-r_sphere = 100;  % begin particles at 10 km away
+r_sphere = 100;  % begin particles at 100 m away
 n = 15;
 [X,Y,Z] = sphere(n);
 
@@ -52,7 +52,7 @@ tic;
 
 %% Calculate velocities
 v_hat = -r_0./vecnorm(r_0,2,2);  % initial velocity direction radial inward
-KE = 1e8;  % in eV
+KE = 1e6;  % in eV
 
 m = 1.67262e-27;  % mass of proton [kg]
 e = 1.6022e-19;  % charge on a proton, conversion from eV to J 

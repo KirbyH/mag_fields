@@ -14,11 +14,11 @@ density = 2^6;
 % Pre-allocates memmory :)
 Objective = zeros(density,density);
 % Limits for the horizontal and vertical radius
-r = linspace(0.1, 20, density);
+r = linspace(0.1, 2, density);
 % Determines the number of points on the coil geometry
 n_points = 2^4+1;
 % Deterimens the Halbach radius
-halbach_r = 10;
+halbach_r = 4;
 % Deterimes the number of coils
 n_coils = 8;
 % Determines the current
@@ -28,11 +28,12 @@ for ii = 1:density
     for jj = 1:density
         clear ll
         % Calculate the coil geometry
-        geom = coil_geom(r(ii),r(jj),n_points);
+        geom = coil_geom(r(jj),r(ii),n_points);
         % Calculate the Halbach Array Geometry
         [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r); 
+        
         % calculate the coil forces on each point in the Halbach Array
-        forces = coil_forces(coil_mp, dL, I); 
+        forces = calc_forces(coil_mp, dL, I); %, points); 
         % Loop through each coil
         for i = 1:n_coils
             % Index to grab the correct coil points
@@ -50,7 +51,9 @@ end
 
 % Plot the results
 figure
-pcolor(r,r,Objective);
+p = pcolor(r,r,Objective);
+set(p, 'EdgeColor', 'none'); 
+set(p, 'FaceColor', 'interp'); 
 title('Force Norm Space Varying Coil Geometry')
 xlabel('Horizontal Radius [m]')
 ylabel('Vertical Radius [m]')
@@ -63,13 +66,13 @@ clearvars -except density
 % Pre-allocates memmory :)
 Objective = zeros(density,density);
 % Limits for the horizontal and vertical radius
-r = linspace(0.1, 10, density);
+r = linspace(0.1, 2, density);
 % Kept
 r_set = 1;
 % Determines the number of points on the coil geometry
 n_points = 2^4+1;
 % Deterimens the Halbach radius
-halbach_r = linspace(2,10, density);
+halbach_r = linspace(2,8, density);
 % Deterimes the number of coils
 n_coils = 8;
 % Determines the current
@@ -79,11 +82,11 @@ for ii = 1:density
     for jj = 1:density
         clear ll
         % Calculate the coil geometry
-        geom = coil_geom(r(ii),r_set,n_points);
+        geom = coil_geom(r_set, r(ii),n_points);
         % Calculate the Halbach Array Geometry
         [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r(jj)); 
         % calculate the coil forces on each point in the Halbach Array
-        forces = coil_forces(coil_mp, dL, I); 
+        forces = calc_forces(coil_mp, dL, I); 
         % Loop through each coil
         for i = 1:n_coils
             % Index to grab the correct coil points
@@ -101,7 +104,9 @@ end
 
 % Plot the results
 figure
-pcolor(r,halbach_r,Objective);
+p = pcolor(r,halbach_r,Objective);
+set(p, 'EdgeColor', 'none'); 
+set(p, 'FaceColor', 'interp'); 
 title('Force Norm Space Varying Horizontal Coil Radius and Halbach Array Radius')
 xlabel('Horizontal Radius [m]')
 ylabel('Halbach Radius [m]')
@@ -114,13 +119,13 @@ clearvars -except density
 % Pre-allocates memmory :)
 Objective = zeros(density,density);
 % Limits for the horizontal and vertical radius
-r = linspace(0.1, 10, density);
+r = linspace(0.1, 2, density);
 % Kept
 r_set = 1;
 % Determines the number of points on the coil geometry
 n_points = 2^4+1;
 % Deterimens the Halbach radius
-halbach_r = linspace(1,20, density);
+halbach_r = linspace(1,8, density);
 % Deterimes the number of coils
 n_coils = 8;
 % Determines the current
@@ -130,11 +135,11 @@ for ii = 1:density
     for jj = 1:density
         clear ll
         % Calculate the coil geometry
-        geom = coil_geom(r_set,r(ii),n_points);
+        geom = coil_geom(r(ii), r_set,n_points);
         % Calculate the Halbach Array Geometry
         [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r(jj)); 
         % calculate the coil forces on each point in the Halbach Array
-        forces = coil_forces(coil_mp, dL, I); 
+        forces = calc_forces(coil_mp, dL, I); 
         % Loop through each coil
         for i = 1:n_coils
             % Index to grab the correct coil points
@@ -152,7 +157,61 @@ end
 
 % Plot the results
 figure
-pcolor(r,halbach_r,Objective);
+p = pcolor(r,halbach_r,Objective);
+set(p, 'EdgeColor', 'none'); 
+set(p, 'FaceColor', 'interp'); 
+title('Force Norm Space Varying Vertical Coil Radius and Halbach Array Radius')
+xlabel('Vertical Radius [m]')
+ylabel('Halbach Radius [m]')
+colorbar
+
+%% Investigate AR and Halbach Geometry
+
+clearvars -except density
+% Pre-allocates memmory :)
+Objective = zeros(density,density);
+% Limits for the horizontal and vertical radius
+r = linspace(0.1, 2, density);
+% Kept
+r_set = 1;
+% Determines the number of points on the coil geometry
+n_points = 2^4+1;
+% Deterimens the Halbach radius
+halbach_r = linspace(1,8, density);
+% Deterimes the number of coils
+n_coils = 8;
+% Determines the current
+I = 1e6;
+
+for ii = 1:density
+    for jj = 1:density
+        clear ll
+        % Calculate the coil geometry
+        geom = coil_geom(r(ii), r_set,n_points);
+        % Calculate the Halbach Array Geometry
+        [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r(jj)); 
+        % calculate the coil forces on each point in the Halbach Array
+        forces = calc_forces(coil_mp, dL, I); 
+        % Loop through each coil
+        for i = 1:n_coils
+            % Index to grab the correct coil points
+            span = 1+(n_points-1)*(i-1) : (n_points-1)*(i);
+            % Sum up the forces for each coil
+            sorry_kirby = sum(forces(span,:));
+            % Compute the euclidean norm of the force on each coil
+            ll(i) = norm(sorry_kirby);
+        end
+        % Sum up all of the euclidean norms on the coils for a specific
+        % coil geometry and set it to a log scale
+        Objective(jj,ii) = log(sum(ll));
+    end
+end
+
+% Plot the results
+figure
+p = pcolor(r,halbach_r,Objective);
+set(p, 'EdgeColor', 'none'); 
+set(p, 'FaceColor', 'interp'); 
 title('Force Norm Space Varying Vertical Coil Radius and Halbach Array Radius')
 xlabel('Vertical Radius [m]')
 ylabel('Halbach Radius [m]')
