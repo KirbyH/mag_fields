@@ -106,7 +106,8 @@ colorbar
 %}
     
 %% Use fminsearch to do your dirty work for you
-tic 
-
-x = fminsearchbnd(@forFminSearch,[1, 5, 3], [0.5, 3, 1],[7, 10, 10])
-toc
+for ii = 1:10
+    x = rand;
+    x(ii,:) = fminsearchbnd(@forFminSearch,[0.5+x*6, 1+x*8.5, 0.1+x*8.5], [0.5, 1, 0.1],[7, 10, 10]);
+    display(ii)
+end

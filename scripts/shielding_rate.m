@@ -28,16 +28,13 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % Matt Tuman & Kirby Heck
 % 2/25/21
 
-<<<<<<< HEAD
 % geom = coil_racetrack(1, 1, 33); 
 % [points, coil_mp, dL] = create_halbach(geom, 8, 5); 
-=======
-geom = coil_racetrack(1, 1, 33); 
-[points, coil_mp, dL] = create_halbach(geom, 8, 6); 
->>>>>>> refs/remotes/origin/main
-plots = 1; 
+% geom = coil_racetrack(1, 1, 33); 
+% [points, coil_mp, dL] = create_halbach(geom, 8, 6); 
+% plots = 1; 
 if ~exist('I', 'var')
-    I = 1e8; 
+    I = 1e7; 
 end
 
 %% Create Sphere For Initial Positions
@@ -57,7 +54,7 @@ tic;
 
 %% Calculate velocities
 v_hat = -r_0./vecnorm(r_0,2,2);  % initial velocity direction radial inward
-KE = 1e8;  % in eV
+KE = 1e6;  % in eV
 
 m = 1.67262e-27;  % mass of proton [kg]
 e = 1.6022e-19;  % charge on a proton, conversion from eV to J 
