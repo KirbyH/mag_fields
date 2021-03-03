@@ -34,18 +34,18 @@ set(0, 'defaultAxesTickLabelInterpreter', 'latex');
 filename = 'nine_panels.txt';
 n_coils = 8;
 radius = 5;
-Xgrid = 15;
-Ygrid = 15;
-Zgrid = 15;
+Xgrid = 50;
+Ygrid = 50;
+Zgrid = 50;
 I = 1e6;
-pts_grid = 32;
+pts_grid = 101;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
 % imports
 % geom = importdata(filename);
 % geom = geom.data;
 
-geom  = coil_geom(1, 1, 109); 
+geom  = coil_racetrack(1.125, 0.375, 51); 
 
 % ============ intro message ============
 disp(['Begin timer: running mag_field.m with ' num2str(pts_grid^3) ' points.']); 
@@ -95,12 +95,12 @@ end
 % plot_slices(B_field, points); 
 
 %% Plot xz-plane and xy-plane streamslice
-plot_streamslice(B_field); 
-plot_halbach(points); 
+% plot_streamslice(B_field); 
+% plot_halbach(points); 
 
 %% Calculate and plot coil forces
-panel_forces = calc_forces(coil_mp, dL, I); 
-[coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
+% panel_forces = calc_forces(coil_mp, dL, I); 
+% [coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
 
 %% end timer
 toc

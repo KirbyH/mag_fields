@@ -165,7 +165,7 @@ xlabel('Vertical Radius [m]')
 ylabel('Halbach Radius [m]')
 colorbar
 
-%% Investigate AR and Halbach Geometry
+%% Racetrack AR and Halbach Geometry
 
 clearvars -except density
 % Pre-allocates memmory :)
@@ -187,7 +187,7 @@ for ii = 1:density
     for jj = 1:density
         clear ll
         % Calculate the coil geometry
-        geom = coil_geom(r(ii), r_set,n_points);
+        geom = coil_racetrack(r(ii), r_set,n_points, 2);
         % Calculate the Halbach Array Geometry
         [points, coil_mp, dL] = create_halbach(geom, n_coils, halbach_r(jj)); 
         % calculate the coil forces on each point in the Halbach Array

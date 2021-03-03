@@ -33,7 +33,9 @@ if nargin == 1
     coil_mp = GL().coil_mp; 
     I = GL().I; 
 end
-% coord = coord';
+if size(coord) ~= [1, 3]
+    coord = coord'
+end
 r_mat = coord - coil_mp;  % r-vector, [#midpoints x 3]
 r = vecnorm(r_mat,2,2);  % length of each vector [#mp x 1]
 r_hat = r_mat./r;
