@@ -22,16 +22,27 @@ clear; close all;
 data50 = importdata('Coarse_x50.txt', ' ', 9);  % COMSOL data, 50x50x50 case
 
 %%{
+% figure; hold on; 
 load('B_fieldx50.mat'); % loads B_field called B_fieldx50
-[err50, avg50] = plotDiffs(B_fieldx50, data50, 'Coarse Mesh - Same Conditions', 0.5)
+Title{1} = 'Coarse - Same Geometry'; 
+[err50, avg50] = plotDiffs(B_fieldx50, data50, Title{1}, 0.5); 
+
 load('B_fieldx50err.mat'); % loads B_field called B_fieldx50
-[err, avg50] = plotDiffs(B_fieldx50, data50, 'Coarse Mesh - Racetrack height -20\%', 0.5)
+Title{2} = 'Coarse - Racetrack height -20\%'; 
+[err, avg50] = plotDiffs(B_fieldx50, data50, Title{2}, 0.5); 
+
 load('B_fieldx50err2.mat'); % loads B_field called B_fieldx50
-[err, avg50] = plotDiffs(B_fieldx50, data50, 'Coarse Mesh - Circular coils', 0.5)
+Title{3} = 'Coarse - Circular coils'; 
+[err, avg50] = plotDiffs(B_fieldx50, data50, Title{3}, 0.5); 
+
 load('B_fieldx50err3.mat'); % loads B_field called B_fieldx50
-[err, avg50] = plotDiffs(B_fieldx50, data50, 'Coarse Mesh - Wrong current magnitude', 0.5)
+Title{4} = 'Coarse - Wrong current magnitude'; 
+[err, avg50] = plotDiffs(B_fieldx50, data50, Title{4}, 0.5); 
+
 load('B_fieldx50avg.mat'); % loads B_field called B_fieldx50
-[err, avg50] = plotDiffs(B_fieldx50, data50, 'Coarse Mesh - Average Coil', 0.5)
+Title{5} = 'Coarse - Average 3D Coil Dimensions'; 
+[err, avg50] = plotDiffs(B_fieldx50, data50, Title{5}, 0.5); 
+% hold off; 
 %}
 
 %% Fine mesh
@@ -48,7 +59,14 @@ plotPoints(B_fieldx50, data50, 3*err50, 'Largest $|\vec{B}|$ difference location
 plotPoints(B_fieldx12, data12, 3*err12, 'Largest $|\vec{B}|$ difference locations, fine'); 
 
 %% save figures
+%{
 savepath = '../figures/'; 
+f = findobj('type', 'figure'); 
+for k = 1:length(f)
+    filename = fullfile(savepath, sprintf('field_validation fig %i', k)); 
+    saveas(f(k), filename); 
+end
+%}
 
 
 %% function definitions
@@ -86,7 +104,7 @@ if ~exist('xmax', 'var')
 end
 histogram(db_diff(filter), 'Normalization', 'cdf', 'BinWidth', xmax/50); 
 xlabel('Difference in $|\vec{B}|$, log scale [$\log_{10}$(T)]'); 
-ylabel('Points within difference threshold, CDF [-]'); 
+ylabel('Points in Difference Threshold, CDF [-]'); 
 if exist('titlename', 'var')
     title(sprintf('%s, Error $\\epsilon = $%.3f', titlename, err)); 
 else

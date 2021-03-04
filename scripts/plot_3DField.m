@@ -46,8 +46,10 @@ axis equal;
 
 % COLORS: USE EXTERNAL FUNCTIONS (CREDIT GIVEN IN FCN HEADERS)
 colormap(redblue);
-colorbar;
+c1 = colorbar;
+c1.Label.String = '\Delta log_{10}(T)'; 
 SetQuiverColor(q3, redblue,'mags',B_plot(:,7),'range',[minB, maxB]);  
 caxis([minB, maxB]);
+xlabel('$x$ [m]'); ylabel('$y$ [m]'); zlabel('$z$ [m]'); 
 
 end

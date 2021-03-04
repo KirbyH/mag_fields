@@ -57,7 +57,7 @@ title('Magnetic field visualization for $z=0$');
 f(3) = figure(); hold on; 
 s3 = slice(X,Y,Z,B, [max(X(:))], [max(Y(:))], [min(Z(:))]); 
 s4 = slice(X,Y,Z,B, [], [], [0]); 
-[Sx, Sy, Sz] = sphere(5);  % start streamlines at radius = 6 [m]
+[Sx, Sy, Sz] = sphere(6);  % start streamlines at radius = 6 [m]
 Sx = Sx*10; Sy = Sy*10; Sz = Sz*10; 
 ss3 = streamline(X,Y,Z,Bx,By,Bz,Sx,Sy,Sz); 
 
