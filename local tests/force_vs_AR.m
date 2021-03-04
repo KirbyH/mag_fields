@@ -33,7 +33,7 @@ for ii = 1:nTests
     coilMax(ii,2) = max(vecnorm(coil_forces,2,2)); 
 end
 
-figure; hold on; grid on; 
+figure;     hold on; grid on; 
 colororder(Colors); 
 yyaxis left; 
 plot(AR, coilMax(:,1)); %, '-', 'Color', Colors(1,:)); 
