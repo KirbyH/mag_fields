@@ -59,7 +59,8 @@ if exist('points', 'var')
     qB = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         plotB(:,1), plotB(:,2), plotB(:,3), 'Color', 'b');
     
-    set(qF, 'AutoScale', 'off'); 
+%     set(qF, 'AutoScale', 'off'); 
+    set(qF, 'AutoScaleFactor', 0.5); 
 end
 end
 

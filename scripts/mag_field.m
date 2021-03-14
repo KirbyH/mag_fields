@@ -90,7 +90,7 @@ end
 
 
 %% Plot 3d B Field
-plot_3DField(B_field, points); 
+% plot_3DField(B_field, points); 
 
 %% Plot slices
 % plot_slices(B_field, points); 
@@ -100,8 +100,8 @@ plot_streamslice(B_field);
 plot_halbach(points); 
 
 %% Calculate and plot coil forces
-% panel_forces = calc_forces(coil_mp, dL, I); 
-% [coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
+panel_forces = calc_forces(coil_mp, dL, I); 
+[coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
 
 %% save figures
 %{
