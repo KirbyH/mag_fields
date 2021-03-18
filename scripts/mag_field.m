@@ -30,22 +30,23 @@ clear; %close all;
 set(0, 'defaultLegendInterpreter', 'latex'); 
 set(0, 'defaultTextInterpreter', 'latex'); 
 set(0, 'defaultAxesTickLabelInterpreter', 'latex'); 
+set(0, 'defaultLineLineWidth', 0.5); 
 
 filename = 'nine_panels.txt';
 n_coils = 8;
 radius = 5;
-Xgrid = 50;
-Ygrid = 50;
-Zgrid = 50;
+Xgrid = 30;
+Ygrid = 30;
+Zgrid = 30;
 I = 1e6;
-pts_grid = 101;
+pts_grid = 51;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
 % imports
 % geom = importdata(filename);
 % geom = geom.data;
 
-geom  = coil_racetrack(1.125, 0.375, 51); 
+geom  = coil_racetrack(1.25, 0.5, 71); 
 
 % ============ intro message ============
 disp(['Begin timer: running mag_field.m with ' num2str(pts_grid^3) ' points.']); 
@@ -89,18 +90,28 @@ end
 
 
 %% Plot 3d B Field
-% plot_3DField(B_field, points, 5); 
+% plot_3DField(B_field, points); 
 
 %% Plot slices
 % plot_slices(B_field, points); 
 
 %% Plot xz-plane and xy-plane streamslice
-% plot_streamslice(B_field); 
-% plot_halbach(points); 
+plot_streamslice(B_field); 
+plot_halbach(points); 
 
 %% Calculate and plot coil forces
-% panel_forces = calc_forces(coil_mp, dL, I); 
-% [coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
+panel_forces = calc_forces(coil_mp, dL, I); 
+[coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
+
+%% save figures
+%{
+savepath = '../figures/'; 
+f = findobj('type', 'figure'); 
+for k = 1:length(f)
+    filename = fullfile(savepath, sprintf('mag_field fig %i', k)); 
+    saveas(f(k), filename); 
+end
+%}
 
 %% end timer
 toc

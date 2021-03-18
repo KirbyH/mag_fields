@@ -1,4 +1,4 @@
-function panel_forces = calc_forces(coil_mp, dL, I, points)
+function panel_forces = calc_forces(coil_mp, dL, I, points, omitCoil)
 % Calculates the forces from a given geometry on each panel of the array
 % and stores the output in a matrix forces [x y z Fx Fy Fz]
 % 
@@ -9,6 +9,9 @@ function panel_forces = calc_forces(coil_mp, dL, I, points)
 %     I : current thru each coil [A]
 %     points (optional) : points for the halbach array. If included, this
 %       will plot the halbach array and corresponding forces. 
+%     omitCoil (optional) : if exists, will omit the coil's effect on
+%       itself for the field and force calculations. Requires 'points' to be
+%       provided. 
 % 
 % OUTPUTS : 
 %     forces : force vector [N] on each panel location (x,y,z). Coordinate
@@ -25,7 +28,16 @@ nPoints = length(panel_forces(:,1));
 % loop thru each point, omitting the current node
 for ii = 1:nPoints
     subset = ones(1, nPoints); 
-    subset(ii) = 0;  % omit this point
+%     subset(ii) = 0; 
+    if ~exist('omitCoil', 'var')
+        subset(ii) = 0;  % omit this point
+    else
+        dims = size(points); 
+        nPan = dims(1)-1;  % points in one coil
+        start_ind = floor((ii-1)/nPan)*nPan + 1; 
+        end_ind = start_ind+nPan-1; 
+        subset(start_ind:end_ind) = 0; 
+    end
     subset = logical(subset);  % needs to be a logical array, not double
     mp_subset = coil_mp(subset, :); 
     dL_subset = dL(subset,:); 
@@ -47,7 +59,8 @@ if exist('points', 'var')
     qB = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
         plotB(:,1), plotB(:,2), plotB(:,3), 'Color', 'b');
     
-    set(qF, 'AutoScale', 'off'); 
+%     set(qF, 'AutoScale', 'off'); 
+    set(qF, 'AutoScaleFactor', 0.5); 
 end
 end
 

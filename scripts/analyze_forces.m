@@ -48,10 +48,13 @@ if exist('plots', 'var')
     hold on; % plot on top of current figure; 
     plot_halbach(points); 
     
+%     plot_forces = coil_forces ./ vecnorm(coil_forces,2,2); 
+    plot_forces = coil_forces; 
     q1 = quiver3(coil_mp(:,1), coil_mp(:,2), coil_mp(:,3), ...
-        coil_forces(:,1), coil_forces(:,2), coil_forces(:,3)); 
+        plot_forces(:,1), plot_forces(:,2), plot_forces(:,3)); 
     set(q1, 'Color', [0.8 0 0]); 
     set(q1, 'LineWidth', 2); 
+%     set(q1, 'AutoScale', 'off'); 
 end
 
 end

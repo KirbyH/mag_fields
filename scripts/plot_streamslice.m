@@ -29,7 +29,8 @@ set(ss1, 'Color', lblue);
 colormap(redblue); 
 caxis(colorLim); 
 c1 = colorbar; 
-c1.Label.String = 'log_{10} |B|'; 
+c1.Label.String = '$\log_{10} |B|$'; 
+c1.Label.Interpreter = 'latex'; 
 s1.EdgeColor = 'none'; 
 s1.FaceColor = 'interp'; 
 view(0, 0); 
@@ -46,7 +47,8 @@ axis equal;
 colormap(redblue); 
 caxis(colorLim); 
 c2 = colorbar; 
-c2.Label.String = 'log_{10} |B|'; 
+c2.Label.String = '$\log_{10} |B|$'; 
+c2.Label.Interpreter = 'latex';
 s2.EdgeColor = 'none'; 
 s2.FaceColor = 'interp'; 
 view([0 90]); 
@@ -57,7 +59,7 @@ title('Magnetic field visualization for $z=0$');
 f(3) = figure(); hold on; 
 s3 = slice(X,Y,Z,B, [max(X(:))], [max(Y(:))], [min(Z(:))]); 
 s4 = slice(X,Y,Z,B, [], [], [0]); 
-[Sx, Sy, Sz] = sphere(5);  % start streamlines at radius = 6 [m]
+[Sx, Sy, Sz] = sphere(6);  % start streamlines at radius = 6 [m]
 Sx = Sx*10; Sy = Sy*10; Sz = Sz*10; 
 ss3 = streamline(X,Y,Z,Bx,By,Bz,Sx,Sy,Sz); 
 
@@ -65,7 +67,8 @@ set(ss3, 'Color', lblue);
 colormap(redblue); 
 caxis(colorLim); 
 c3 = colorbar; 
-c3.Label.String = 'log_{10} |B|'; 
+c3.Label.String = '$\log_{10} |B|$'; 
+c3.Label.Interpreter = 'latex'; 
 set(s3, 'EdgeColor', 'none'); 
 set(s3, 'FaceColor', 'interp'); 
 s4.EdgeColor = 'none'; 

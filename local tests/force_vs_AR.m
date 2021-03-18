@@ -1,7 +1,14 @@
 % explore relationship between net forces on each coil and the aspect ratio
 % for both elliptical and racetrack geometries
 
+close all; 
+
 Colors = parula(5); 
+set(0, 'defaultLegendInterpreter', 'latex'); 
+set(0, 'defaultTextInterpreter', 'latex'); 
+set(0, 'defaultAxesTickLabelInterpreter', 'latex'); 
+set(0, 'defaultLineMarkerSize', 5); 
+set(0, 'defaultLineLineWidth', 1.5); 
 
 nTests = 100; 
 AR = linspace(1, 8, nTests); 
@@ -33,18 +40,30 @@ for ii = 1:nTests
     coilMax(ii,2) = max(vecnorm(coil_forces,2,2)); 
 end
 
-figure; hold on; grid on; 
+figure;     hold on; grid on; 
 colororder(Colors); 
-yyaxis left; 
+% yyaxis left; 
 plot(AR, coilMax(:,1)); %, '-', 'Color', Colors(1,:)); 
 plot(AR, coilMax(:,2)); %, '-', 'Color', Colors(2,:)); 
 ylabel('Maximum net coil force, $F/I^2$ [N A$^{-2}$]'); 
+xlabel('Aspect ratio $h/w$ [-]'); 
+legend({'Racetrack', 'Ellipse'}, 'location', 'north'); 
+title(sprintf('Forces for Halbach array radius = %i m', Hradius)); 
 
-yyaxis right; 
+figure; hold on; grid on; 
+colororder(Colors); 
 plot(AR, panMax(:,1)); %, '--', 'Color', Colors(1,:)); 
 plot(AR, panMax(:,2)); %, '--', 'Color', Colors(2,:)); 
 ylabel('Maximum force in any panel, $F/I^2 L$ [N A$^{-2}$ m$^{-1}$]'); 
 
 xlabel('Aspect ratio $h/w$ [-]'); 
 legend({'Racetrack', 'Ellipse'}, 'location', 'north'); 
-title(sprintf('Forces for array radius = %i m', Hradius)); 
+title(sprintf('Forces for Halbach array radius = %i m', Hradius)); 
+
+%% Save figures
+savepath = '../figures/'; 
+f = findobj('type', 'figure'); 
+for k = 1:length(f)
+    filename = fullfile(savepath, sprintf('force_vs_AR fig %i', k)); 
+    saveas(f(k), filename); 
+end

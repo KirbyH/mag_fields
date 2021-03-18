@@ -29,7 +29,7 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % 2/25/21
 
 geom = coil_racetrack(1, 0.1, 33); 
-[points, coil_mp, dL] = create_halbach(geom, 8, 4); 
+[points, coil_mp, dL] = create_torus(geom, 8, 4); 
 plots = 1; 
 if ~exist('I', 'var')
     I = 1e7; 

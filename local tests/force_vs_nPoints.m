@@ -77,3 +77,13 @@ legend({'Maximum panel force', 'Averaged panel force'}, 'location', 'southeast')
 
 disp("Computation time for single panel:"); 
 toc
+
+%% save figures
+%{
+savepath = '../figures/'; 
+f = findobj('type', 'figure'); 
+for k = 1:length(f)
+    filename = fullfile(savepath, sprintf('force_vs_nPoints fig %i', k)); 
+    saveas(f(k), filename); 
+end
+%}
