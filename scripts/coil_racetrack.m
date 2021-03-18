@@ -1,9 +1,9 @@
-function [geom] = coil_racetrack(r, w, n_p, method)
+function [geom] = coil_racetrack(r_maj, AR, n_p, method)
 % Creates a racetrack with cosine spacing using parameters r, l, n_p
 % 
 % INPUTS : 
-%     r :  semimajor axis (half of total height)
-%     w : semiminor axis (half of total width)
+%     r_maj :  semimajor axis (half of total height)
+%     AR : Aspect ratio of the racetrack; <1 is wider than it is long
 %     n_p : target number of points
 %     method : (optional) either 1, 2, or 3. Computational method for 
 %       calculating the points on the coil. Suggestions: 
@@ -17,10 +17,19 @@ function [geom] = coil_racetrack(r, w, n_p, method)
 % Kirby Heck
 % 02/25/2021
 
-% the function below breaks if r=w (circle). Workaround: call coil_geom.m
-if r==w
+% the function below breaks if AR=1 (circle). Workaround: call coil_geom.m
+if AR == 1
+    r = r_maj; 
+    w = r; 
     geom = coil_geom(r, w, n_p); 
     return; 
+end
+
+r = r_maj; 
+if AR > 1
+    w = r/AR; 
+else
+    w = r*AR;  % this will be corrected later on
 end
 
 % This is going to assemble the racetrack in four pieces with
@@ -66,7 +75,12 @@ else  % if method is not 1 or 2, then this is the default choice
 
 end
 
+% rotate geometry if AR<1
+if AR<1
+    geom = [geom(:,2), -geom(:,1)]; 
+end
 
-% plot(geom(:,1), geom(:,2)); axis equal; 
+
+plot(geom(:,1), geom(:,2)); axis equal; 
 end
 
