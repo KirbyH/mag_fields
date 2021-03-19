@@ -29,7 +29,7 @@ function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, plots)
 % 3/17/19
 
 %% CRITICAL VARIABLES
-KE = 1e9;  % in eV
+KE = 1e7;  % in eV
 thresh = 3;  % [m] spacecraft radius
 
 c = 299792458; % speed of light
@@ -109,10 +109,8 @@ for ii = 1:nRuns
     [~,ind] = min(mags);  % find index of nearest approach
     if ind ~= length(trail)  % if nearest isn't at the end...
         if mags(ind+1)<mags(ind-1)  % check if next nearest point is ahead 
-            disp('ahead'); 
             res(ii) = does_it_hit(trail(ind,:), trail(ind+1,:), thresh);
         else  % nearest point must be behind
-            disp('behind'); 
             res(ii) = does_it_hit(trail(ind,:), trail(ind-1,:), thresh);
         end
     else  % nearest point to origin is at the end
