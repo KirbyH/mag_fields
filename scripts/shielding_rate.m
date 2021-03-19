@@ -28,11 +28,11 @@ function defl_rate = shielding_rate(points, coil_mp, dL, I, plots)
 % Matt Tuman & Kirby Heck
 % 2/25/21
 
-geom = coil_racetrack(1, 0.1, 33); 
-[points, coil_mp, dL] = create_torus(geom, 8, 4); 
+geom = coil_geom(0.5, 2.6, 51); 
+[points, coil_mp, dL] = create_halbach(geom, 8, 3.308); 
 plots = 1; 
 if ~exist('I', 'var')
-    I = 1e7; 
+    I = 1e6; 
 end
 
 %% Create Sphere For Initial Positions
@@ -90,7 +90,7 @@ for ii = 1:nRuns
     mags = vecnorm(trail,2,2); 
     [~,ind] = min(mags);  % find index of nearest approach
     if ind ~= length(trail)  % if nearest isn't at the end...
-        if mags(ind+1)>mags(ind-1)  % check if next nearest point is ahead 
+        if mags(ind+1)<mags(ind-1)  % check if next nearest point is ahead 
             res(ii) = does_it_hit(trail(ind,:), trail(ind+1,:), thresh);
         else  % nearest point must be behind
             res(ii) = does_it_hit(trail(ind,:), trail(ind-1,:), thresh);

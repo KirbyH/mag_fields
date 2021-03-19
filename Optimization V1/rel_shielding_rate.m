@@ -29,7 +29,7 @@ function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, plots)
 % 3/17/19
 
 %% CRITICAL VARIABLES
-KE = 1e8;  % in eV
+KE = 1e9;  % in eV
 thresh = 3;  % [m] spacecraft radius
 
 c = 299792458; % speed of light
@@ -73,6 +73,8 @@ v_hat = -r_0./vecnorm(r_0,2,2);  % initial momentum direction radial inward
 m = 1.67262e-27;  % mass of proton [kg]
 e = 1.6022e-19;  % charge on a proton, conversion from eV to J 
 c = 299792458;  % speed of light, m/s
+B_0 = 1; 
+R = m*c/q/B_0;  % cyclotron radius
 KE_J = KE*e; 
 p_hat = sqrt((1+KE_J/m/c^2)^2-1);
 
@@ -82,6 +84,7 @@ info = [r_0, v_hat*p_hat];
 GL('I', I);
 GL('coil_mp', coil_mp);
 GL('dL', dL);
+GL('r_0', R); 
 
 %% Begin ODE45 integrations
 res = zeros(nRuns, 1); 
@@ -105,9 +108,11 @@ for ii = 1:nRuns
     mags = vecnorm(trail,2,2); 
     [~,ind] = min(mags);  % find index of nearest approach
     if ind ~= length(trail)  % if nearest isn't at the end...
-        if mags(ind+1)>mags(ind-1)  % check if next nearest point is ahead 
+        if mags(ind+1)<mags(ind-1)  % check if next nearest point is ahead 
+            disp('ahead'); 
             res(ii) = does_it_hit(trail(ind,:), trail(ind+1,:), thresh);
         else  % nearest point must be behind
+            disp('behind'); 
             res(ii) = does_it_hit(trail(ind,:), trail(ind-1,:), thresh);
         end
     else  % nearest point to origin is at the end
@@ -117,6 +122,16 @@ for ii = 1:nRuns
     % store trajectories for plotting if true
     if plotting
         streaks{ii} = trail; 
+        
+        %{
+        LineSp = {'g:', 'r-'}; 
+        LineTh = [0.5, 0.5];  % set up some linespec options in advance
+        
+        x = streaks{ii}(:,1);
+        y = streaks{ii}(:,2);
+        z = streaks{ii}(:,3);
+        plot3(x, y, z, LineSp{res(ii)+1}, 'LineWidth', LineTh(res(ii)+1)); 
+        %}
     end
 end
 
