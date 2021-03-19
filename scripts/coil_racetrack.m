@@ -19,9 +19,7 @@ function [geom] = coil_racetrack(r_maj, AR, n_p, method)
 
 % the function below breaks if AR=1 (circle). Workaround: call coil_geom.m
 if AR == 1
-    r = r_maj; 
-    w = r; 
-    geom = coil_geom(r, w, n_p); 
+    geom = coil_geom(r_maj, AR, n_p); 
     return; 
 end
 
@@ -81,6 +79,6 @@ if AR<1
 end
 
 
-plot(geom(:,1), geom(:,2)); axis equal; 
+% plot(geom(:,1), geom(:,2)); axis equal; 
 end
 
