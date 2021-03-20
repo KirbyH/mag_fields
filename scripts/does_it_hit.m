@@ -22,10 +22,10 @@ sol2 = (-b-sqrt(solution))/2/a;
 
 solution = max([sol1,sol2]);
 
-if solution<0
-    hit = 0;
-else
+if isreal(solution) && solution>=0
     hit = 1;
+else
+    hit = 0;
 end
 
 end
