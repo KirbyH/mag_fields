@@ -1,7 +1,7 @@
-function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, plots)
-% Function version of IC.m which takes a specific point array and a current
-% value and calculates the shield effectiveness from a worst-case scenario
-% of evenly distributed charged protons. 
+function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, KE, plots)
+% Yet another shielding rate script. Takes variable input arguments and
+% uses random sampling of N points to define initial conditions. Default
+% direction is still radially inward. 
 % 
 % INPUTS : 
 %     points : [pointsPerCoil x 3 x n_coils] array prescribing shield
@@ -10,6 +10,7 @@ function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, plots)
 %     dL : [nPoints x 3] vector length and direction of each panel 
 %       corresponding with rows in coil_mp 
 %     I : (optional) Current value. Default is set to 1e6. 
+%     KE : (optional) Energy of launched particles. Default is 1e7 eV. 
 %     plots : (optional) If included with any value, will plot the
 %       trajectories of inbound particles. Takes about 0.75 s extra
 % 
@@ -26,10 +27,15 @@ function defl_rate = rel_shielding_rate(points, coil_mp, dL, I, plots)
 %     r_plot : radius to show in plots
 % 
 % Matt Tuman & Kirby Heck
-% 3/17/19
+% 3/17/21
 
 %% CRITICAL VARIABLES
-KE = 1e7;  % in eV
+if ~exist('KE', 'var')
+    KE = 1e7;  % in eV
+end
+if ~exist('I', 'var')
+    I = 1e6; 
+end
 thresh = 3;  % [m] spacecraft radius
 
 c = 299792458; % speed of light
@@ -52,13 +58,13 @@ omega_0 = q*B_0/m;
 % end
 
 %% Create Sphere For Initial Positions
-r_sphere = 100;  % begin particles at 100 m away
-n = 15;
+r_sphere = 50;  % begin particles at 100 m away
+n = 25;
 [X,Y,Z] = sphere(n);
 
 r_0 = [X(:), Y(:), Z(:)] * r_sphere;  % rearrange and scale sphere
 r_0 = unique(r_0,'rows');
-r_0 = r_0(randperm(size(r_0, 1)), :);
+% r_0 = r_0(randperm(size(r_0, 1)), :);
 nRuns = length(r_0(:,1)); 
 
 % print banner
@@ -76,9 +82,11 @@ c = 299792458;  % speed of light, m/s
 B_0 = 1; 
 R = m*c/q/B_0;  % cyclotron radius
 KE_J = KE*e; 
+v = c*sqrt(1-(m*c^2/(KE_J+m*c^2))^2);  % relativistic velocity calculate tspan
 p_hat = sqrt((1+KE_J/m/c^2)^2-1);
 
 info = [r_0, v_hat*p_hat];
+% info = [r_0, v_hat*v];  % NON-RELATIVISTIC EOM CHECK
 
 %% Set global vars
 GL('I', I);
@@ -97,11 +105,12 @@ end
 
 % if plotting, run extra step in if statement
 for ii = 1:nRuns
-    t = [0 1e-4];
-    s = omega_0*t;
+    t = [0 2*r_sphere/v]; 
+    s = omega_0*t*2*pi; 
+    
     IC = info(ii,:);
-    StartTime=clock;
     [~, traj] = ode45(@eom_rad_rel, s, IC);
+%     [~, traj] = ode45(@eom_rad, t, IC);  % NON-RELATIVISTIC EOM CHECK
     trail = traj(:,1:3);  % xyz trail of points
     
     % check to see if the trail intersepts the sphere bounded by 'thresh'
@@ -120,16 +129,6 @@ for ii = 1:nRuns
     % store trajectories for plotting if true
     if plotting
         streaks{ii} = trail; 
-        
-        %{
-        LineSp = {'g:', 'r-'}; 
-        LineTh = [0.5, 0.5];  % set up some linespec options in advance
-        
-        x = streaks{ii}(:,1);
-        y = streaks{ii}(:,2);
-        z = streaks{ii}(:,3);
-        plot3(x, y, z, LineSp{res(ii)+1}, 'LineWidth', LineTh(res(ii)+1)); 
-        %}
     end
 end
 

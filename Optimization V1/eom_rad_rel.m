@@ -19,7 +19,7 @@ dL = GL().dL;
 coil_mp = GL().coil_mp; 
 I = GL().I; 
 
-B_hat = calc_B(x(1:3)', coil_mp, dL, I); 
+B_hat = calc_B(x(1:3)'); %, coil_mp, dL, I); 
 
 gamma = sqrt(norm(p_hat)^2 + 1);
 
