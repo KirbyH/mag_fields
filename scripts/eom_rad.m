@@ -20,7 +20,7 @@ dL = GL().dL;
 coil_mp = GL().coil_mp; 
 I = GL().I; 
 
-B_field = calc_B(x(1:3)', coil_mp, dL, I); 
+B_field = calc_B(x(1:3)'); %, coil_mp, dL, I); 
 Vel = x(4:6);
 a = q/m*cross(Vel, B_field);
 x_dot = [Vel; a'];
