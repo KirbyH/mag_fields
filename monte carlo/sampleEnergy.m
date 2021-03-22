@@ -1,4 +1,4 @@
-function eV = sampleEnergy(Z)
+function eV = sampleEnergy(Z, M)
 % Samples energy from a 5th order polynomial fit for distributions of
 % elements from sampleElement.m as given by Simpson 1983. 
 % 
@@ -11,6 +11,8 @@ function eV = sampleEnergy(Z)
 %       interpolate between, in log scale
 %       maxGCR [N x 1] - maximum differential flux for each element, sets
 %       upper bound for rejection sampling, in absolute scale
+%     M : (optional) integer that takes groupings of random variables
+%       instead of one by one to speed up the rejection sampling
 %     
 % OUTPUTS : 
 %     eV : [N x 1] atomic energy, in electron volts, from sampled
@@ -27,6 +29,10 @@ rng(10);  % set seed
 
 boundsLN = 10.^boundsGCR;  % linear scale bounds
 
+if ~exist('M', 'var')
+    M = 100; 
+end
+
 nEl = length(Z); 
 eV = zeros(nEl, 1); 
 % crude, brute force method 
@@ -34,19 +40,27 @@ for ii = 1:nEl
     att = 0; 
     while eV(ii)==0 % rejection sampling
         att = att+1; 
-        ksi = rand(); 
+        ksi = rand(M, 1); 
         ind = Z(ii);  % element number is also the index number 
         x = boundsLN(ind,1) + ksi*(range(boundsLN(ind,:)));  % energy guess
         
-        eta = rand(); 
+        eta = rand(M, 1); 
         f = polyval(energyGCR(ind,:), log10(x));  % evaluate function at energy x
-        f = 10^f;  % convert to absolute scale; 
+        f = 10.^f;  % convert to absolute scale; 
         g = maxGCR(ind); 
-        if eta<(f/g)
-%             fprintf('Attempts before success: %i \n', att); 
-            eV(ii) = x; 
-%             plot(x, eta, 'go'); 
+        
+        % faster search
+        success = find(eta < f/g, 1); 
+        if ~isempty(success)
+            eV(ii) = x(success); 
         end
+        
+        % old slower search for M=1 only
+%         if eta<(f/g)
+%             fprintf('Attempts before success: %i \n', att); 
+%             eV(ii) = x; 
+% %             plot(x, eta, 'go'); 
+%         end
     end
 end
 

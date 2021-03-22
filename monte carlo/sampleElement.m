@@ -9,7 +9,7 @@ function Z = sampleElement(N)
 %     Z : atomic number (AMU)
 
 % ========== DISTRIBUTION OF ELEMENTS ============
-el(1) = 485;    % H
+el(1) = 540;    % H
 el(2) = 26;     % He
 el(6) = 2.2;    % C
 el(26) = 0.12;  % Fe
