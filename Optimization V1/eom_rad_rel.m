@@ -12,15 +12,8 @@ function [x_dot] = eom_rad_rel(t, x)
 %     x_dot : differentiated dp/dt and velocity vector, organized in [6x1]
 %       column vector: [u; v; w; dpx; dpy; dpz]
 
-
 p_hat = [x(4), x(5), x(6)];
-
-dL = GL().dL; 
-coil_mp = GL().coil_mp; 
-I = GL().I; 
-
-B_hat = calc_B(x(1:3)'); %, coil_mp, dL, I); 
-
+B_hat = calc_B(x(1:3)'); 
 gamma = sqrt(norm(p_hat)^2 + 1);
 
 dp = cross(p_hat, B_hat)/gamma;

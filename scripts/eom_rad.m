@@ -15,12 +15,7 @@ function [x_dot] = eom_rad(t, x)
 q = 1.602e-19;  % charge of a proton
 m = 1.67e-27;  % mass of a proton
 
-% input global values from global function
-dL = GL().dL; 
-coil_mp = GL().coil_mp; 
-I = GL().I; 
-
-B_field = calc_B(x(1:3)'); %, coil_mp, dL, I); 
+B_field = calc_B(x(1:3)'); 
 Vel = x(4:6);
 a = q/m*cross(Vel, B_field);
 x_dot = [Vel; a'];
