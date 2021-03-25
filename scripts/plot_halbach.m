@@ -37,7 +37,7 @@ roots = zeros(M*nCoils, 3);
 
 for ii = 1:nCoils  % loop through number of coils
     plot3(pointsX(:,ii), pointsY(:,ii), pointsZ(:,ii), ...
-        '-k','LineWidth', 2, 'MarkerFaceColor', 'r'); 
+        '-k','LineWidth', 2, 'MarkerFaceColor', 'r', 'HandleVisibility', 'off'); 
     hold on; 
     start_ind = (ii-1)*M + 1; 
     end_ind = ii*M; 
@@ -47,6 +47,7 @@ end
 
 q = quiver3(roots(:,1), roots(:,2), roots(:,3), ...
     arrows(:,1), arrows(:,2), arrows(:,3)); 
+q.HandleVisibility = 'off'; 
 q.LineWidth = 2; 
 q.Color = 'k'; 
 q.AutoScale = 'off';
