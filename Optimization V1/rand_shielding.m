@@ -3,7 +3,7 @@ function [defl_rate, KE, res] = rand_shielding(points, coil_mp, dL, varargin)
 % value and calculates the shield effectiveness from a worst-case scenario
 % of evenly distributed charged protons. 
 % 
-% UESAGE : 
+% USEAGE : 
 %     rand_shielding(points, coil_mp, dL) calculates the shielding
 %       rate of the specified wire geometry with N=1000 particles for
 %       current I=1e6 A, KE=1 MeV, relativistic EOM, randomly sampled
@@ -148,6 +148,8 @@ end
 KE_J = KE*q; 
 v = c*sqrt(1-(m*c^2./(KE_J+m*c^2)).^2);  % relativistic velocity to calculate tspan
 p_hat = sqrt((1+KE_J./m/c^2).^2-1);
+% p_hat = KE_J/m/c^2;  % KE as given by Paolo
+
 
 if rel
     info = [r_0, v_hat.*p_hat];
@@ -159,7 +161,12 @@ end
 GL('I', I);
 GL('coil_mp', coil_mp);
 GL('dL', dL);
-GL('r_0', R); 
+GL('r_0', 1); 
+if rel
+    GL('coil_mp', coil_mp/R);
+    GL('dL', dL/R);
+    GL('r_0', R); 
+end
 
 %% Begin ODE45 integrations
 res = zeros(nRuns, 1); 
@@ -171,11 +178,13 @@ end
 % if plotting, run extra step in if statement
 for ii = 1:nRuns
     t = [0 2*r_sphere/v(ii)]; 
-    s = omega_0*t*2*pi; 
+    s = omega_0*t; 
     
     IC = info(ii,:);
     if rel % ode45 integration
+        IC(1:3) = IC(1:3)/R;  % scale position to non-dim. 
         [~, traj] = ode45(@eom_rad_rel, s, IC);
+        traj = traj*R;  % re-scale position to dimensionalize
     else
         [~, traj] = ode45(@eom_rad, t, IC); 
     end
@@ -183,7 +192,8 @@ for ii = 1:nRuns
     
     % check to see if the trail intersepts the sphere bounded by 'thresh'
     mags = vecnorm(trail,2,2); 
-    [~,ind] = min(mags);  % find index of nearest approach
+    [min_dist,ind] = min(mags);  % find index of nearest approach
+    
     if ind == length(trail)  % nearest point to origin is at the end
         res(ii) = does_it_hit(trail(ind,:), trail(ind-1,:), thresh);
     elseif ind == 1
