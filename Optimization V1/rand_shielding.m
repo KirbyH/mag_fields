@@ -100,8 +100,8 @@ if randPos
     theta = 2*pi*rand(N, 1); 
     phi = acos(2*rand(N,1)-1); 
     
-    r_0(:,1) = sqrt(1-cos(phi).^2).*cos(theta); 
-    r_0(:,2) = sqrt(1-cos(phi).^2).*sin(theta); 
+    r_0(:,1) = sin(phi).*cos(theta); 
+    r_0(:,2) = sin(phi).*sin(theta); 
     r_0(:,3) = cos(phi); 
 else % evenly spaced points on sphere
     nSphere = ceil(sqrt(N));
@@ -134,7 +134,8 @@ else
 end
 
 m = 1.67262e-27;  % mass of proton [kg]
-q = 1.6022e-19;  % charge on a proton, conversion from eV to J 
+e = 1.6022e-19;  % charge on a proton, conversion from eV to J 
+q = e;  % charge of particle [C]
 c = 299792458;  % speed of light, m/s
 B_0 = 1; 
 
@@ -145,7 +146,7 @@ if ~isnumeric(KE)  % request random sampling kinetic energy
 else
     KE = repmat(KE, [nRuns, 1]);  % convert to column vector
 end
-KE_J = KE*q; 
+KE_J = KE*e; 
 v = c*sqrt(1-(m*c^2./(KE_J+m*c^2)).^2);  % relativistic velocity to calculate tspan
 p_hat = sqrt((1+KE_J./m/c^2).^2-1);
 % p_hat = KE_J/m/c^2;  % KE as given by Paolo
@@ -161,11 +162,10 @@ end
 GL('I', I);
 GL('coil_mp', coil_mp);
 GL('dL', dL);
-GL('r_0', 1); 
 if rel
-    GL('coil_mp', coil_mp/R);
-    GL('dL', dL/R);
     GL('r_0', R); 
+else
+    GL('r_0', 1); 
 end
 
 %% Begin ODE45 integrations
@@ -174,8 +174,6 @@ res = zeros(nRuns, 1);
 if plots
     streaks = cell(nRuns, 1);  % preallocate :)
 end
-
-% if plotting, run extra step in if statement
 for ii = 1:nRuns
     t = [0 2*r_sphere/v(ii)]; 
     s = omega_0*t; 
