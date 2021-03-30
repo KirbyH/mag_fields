@@ -38,7 +38,7 @@ if exist('points', 'var')
     plot_halbach(points, f); 
 end
 
-minB = -6; maxB = 1;  % hardcoded colorbar values
+minB = -4; maxB = 0;  % hardcoded colorbar values
 
 s = slice(X, Y, Z, B, xslice, yslice, zslice); 
 set(s,'EdgeColor','none');  % hide slice gridlines

@@ -34,11 +34,11 @@ set(0, 'defaultLineLineWidth', 0.5);
 
 filename = 'nine_panels.txt';
 n_coils = 8;
-radius = 5;
+radius = 7;
 Xgrid = 30;
 Ygrid = 30;
 Zgrid = 30;
-I = 1e6;
+I = 1e5;
 pts_grid = 51;
 u_0 = 4*pi*1e-7; % magnetic permeability
 
@@ -46,7 +46,7 @@ u_0 = 4*pi*1e-7; % magnetic permeability
 % geom = importdata(filename);
 % geom = geom.data;
 
-geom  = coil_racetrack(1.25, 0.5, 71); 
+geom  = coil_racetrack(0.65, 1, 71); 
 
 % ============ intro message ============
 disp(['Begin timer: running mag_field.m with ' num2str(pts_grid^3) ' points.']); 
@@ -100,8 +100,8 @@ plot_streamslice(B_field);
 plot_halbach(points); 
 
 %% Calculate and plot coil forces
-panel_forces = calc_forces(coil_mp, dL, I); 
-[coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
+% panel_forces = calc_forces(coil_mp, dL, I); 
+% [coil_forces, coil_mp] = analyze_forces(panel_forces, points, 'plot'); 
 
 %% save figures
 %{

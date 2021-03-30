@@ -17,7 +17,8 @@ B = reshape(log10(B_field(:,7)), [Ny, Nx, Nz]);  % log10 of magnetic field
 
 lblue = [0.7 1 1];  % light blue
 
-colorLim = [-4 1]; 
+colorLim = [-4 0]; 
+CLab = 'log$_{10} |B|$'; 
 
 % plot slice in y=1 plane
 f(1) = figure(); 
@@ -29,7 +30,7 @@ set(ss1, 'Color', lblue);
 colormap(redblue); 
 caxis(colorLim); 
 c1 = colorbar; 
-c1.Label.String = '$\log_{10} |B|$'; 
+c1.Label.String = CLab; 
 c1.Label.Interpreter = 'latex'; 
 s1.EdgeColor = 'none'; 
 s1.FaceColor = 'interp'; 
@@ -47,7 +48,7 @@ axis equal;
 colormap(redblue); 
 caxis(colorLim); 
 c2 = colorbar; 
-c2.Label.String = '$\log_{10} |B|$'; 
+c2.Label.String = CLab; 
 c2.Label.Interpreter = 'latex';
 s2.EdgeColor = 'none'; 
 s2.FaceColor = 'interp'; 
@@ -67,7 +68,7 @@ set(ss3, 'Color', lblue);
 colormap(redblue); 
 caxis(colorLim); 
 c3 = colorbar; 
-c3.Label.String = '$\log_{10} |B|$'; 
+c3.Label.String = CLab; 
 c3.Label.Interpreter = 'latex'; 
 set(s3, 'EdgeColor', 'none'); 
 set(s3, 'FaceColor', 'interp'); 
