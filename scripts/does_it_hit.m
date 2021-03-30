@@ -12,7 +12,7 @@ function hit = does_it_hit(p1, p2, radius)
 center = 0;
 r = radius;
 
-a = norm(p2-p1);
+a = norm(p2-p1)^2;
 b = 2*((p2(1)-p1(1))*p1(1) + (p2(2)-p1(2))*p1(2) + (p2(3)-p1(3))*(p1(3)));
 c = p1(1)^2 + p1(2)^2 + p1(3)^2 - r^2;
 
@@ -23,9 +23,9 @@ sol2 = (-b-sqrt(solution))/2/a;
 solution = max([sol1,sol2]);
 
 if isreal(solution) && solution>=0
-    hit = 1;
+    hit = 1; 
 else
-    hit = 0;
+    hit = 0; 
 end
 
 end
