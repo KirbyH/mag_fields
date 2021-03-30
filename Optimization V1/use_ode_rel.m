@@ -49,7 +49,7 @@ t_span = [0 t_end];
 [dt, traj_nr] = ode45(@eom_rad, t_span, IC);
 
 %% Relativistic
-%%{
+%{
 % === create halbach coil geometry (non-dimensional) ===
 geom = coil_racetrack(C_r/r_0, AR, 33); 
 [points, coil_mp, dL] = create_halbach(geom, 8, H_r/r_0); 
