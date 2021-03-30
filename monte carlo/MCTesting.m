@@ -71,8 +71,25 @@ ylim([ymin ymax]);
 yyaxis left; 
 ylim([ymin ymax]); 
 
+%% PDF from polynomial fit
+load('GCR_data.mat');  % load differential flux information
+x = linspace(boundsGCR(1,1), boundsGCR(1,2), 100); 
+y = polyval(energyGCR(1,:), x); 
+x_log = 10.^x; 
+y_log = 10.^y; % .* (x/1e6);  % MULTIPLY BY ENERGY X
+
+figure; 
+loglog(x_log, y_log); 
+A = trapz(x_log, y_log); 
+y_norm = y_log./A; 
+
+figure; 
+loglog(x_log, y_norm); 
+p = polyfit(x, log10(y_norm), 5); 
+
+
 %% Test sampleEnergy.m
-load('numFluxGCR.mat');  % we'll use this for plotting
+load('GCR_data.mat');  % we'll use this for plotting
 elements = [1 2 6 26]; 
 elNames = {'Hydrogen', 'Helium', 'Carbon', 'Iron'}; 
 
@@ -117,3 +134,60 @@ H = histogram(eV, 10.^edges, 'Normalization', 'pdf');
 set(gca, 'YScale', 'log'); 
 set(gca, 'XScale', 'log');
 
+xlabel('Energy [eV]'); 
+ylabel('PDF [-]'); 
+title('Simple Power-log sampling'); 
+
+
+%% test rand_shielding.m
+r_maj = 2; 
+AR = 1; 
+r_H = 5; 
+
+geom = coil_racetrack(r_maj, AR, 33); 
+[points, coil_mp, dL] = create_halbach(geom, 8, r_H); 
+
+[eff, KE, res] = rand_shielding(points, coil_mp, dL, 'KE', 'powerlog'); %,'seed', 'noseed'); 
+
+% plotting/visualization
+figure; 
+[~, edges] = histcounts(log10(KE)); 
+H = histogram(KE, 10.^edges, 'normalization', 'pdf'); 
+set(gca, 'XScale', 'log'); 
+set(gca, 'YScale', 'log'); 
+title('KE vs PDF of particles'); 
+
+figure; 
+hits = KE(logical(res)); 
+H1 = histogram(hits, 10.^edges, 'normalization', 'pdf'); 
+set(gca, 'XScale', 'log'); 
+set(gca, 'YScale', 'log'); 
+title('KE vs PDF of hits'); 
+
+figure; 
+histogram(KE, 10.^edges); 
+hold on; 
+histogram(hits, 10.^edges); 
+set(gca, 'XScale', 'log'); 
+ylabel('Number'); 
+xlabel('Energy [eV]'); 
+
+%% test sampleDirVector
+r_sphere = 10; 
+phi = acos(2*rand(100, 1)-1); %ones(100, 1); 
+theta = 2*pi*rand(100, 1); %zeros(100, 1); 
+v_hat = sampleDirVector(phi, theta, r_sphere, 1);
+v_hat = v_hat*r_sphere*2; 
+
+x = r_sphere.*sin(phi).*cos(theta); 
+y = r_sphere.*sin(phi).*sin(theta); 
+z = r_sphere.*cos(phi); 
+
+figure; 
+quiver3(x, y, z, v_hat(:,1), v_hat(:,2), v_hat(:,3), ...
+    'AutoScale', 'off'); 
+axis equal; 
+bnd = r_sphere; 
+xlim([-bnd bnd]); 
+ylim([-bnd bnd]); 
+zlim([-bnd bnd]); 

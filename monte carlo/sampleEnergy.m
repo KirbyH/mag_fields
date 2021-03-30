@@ -24,7 +24,7 @@ function eV = sampleEnergy(Z, M)
 % IF THIS FILE DOES NOT EXIST, run writeEnergyGCR.m
 %   will load two variables: energyGCR (polynomial fit) and boundsGCR (max
 %   and min energies provided by data; do not extrapolate. 
-load('numFluxGCR.mat'); 
+load('GCR_data.mat'); 
 rng(10);  % set seed
 
 boundsLN = 10.^boundsGCR;  % linear scale bounds
