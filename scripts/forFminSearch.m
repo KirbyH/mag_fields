@@ -1,14 +1,3 @@
-function output = forFminSearch(x)
-
-coilRadius = x(1);
-halbachRadius = x(2);
-AR = x(3);
-geom = coil_racetrack(coilRadius, coilRadius/AR, 21);
-[points, coil_mp, dL] = create_halbach(geom, 8, halbachRadius);
-defl_rate = shielding_rate(points, coil_mp, dL);
-
-
-% Fminsearch looks for minimum
-output = 1-defl_rate;
-
-end
+version https://git-lfs.github.com/spec/v1
+oid sha256:57e5cc1435087fcc17fc1d6527f3514aa57aa9b3578c76c8f0dfa89cbda04606
+size 314
